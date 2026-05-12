@@ -22,7 +22,8 @@ function Resolve-FullPath {
 function Invoke-Checked {
     param(
         [string]$Description,
-        [string]$Command
+        [string]$Command,
+        [int]$Retries = 1
     )
 
     Write-Host ""
@@ -33,7 +34,28 @@ function Invoke-Checked {
         return
     }
 
-    Invoke-Expression $Command
+    for ($attempt = 1; $attempt -le $Retries; $attempt += 1) {
+        Invoke-Expression $Command
+        if ($LASTEXITCODE -eq 0) {
+            return
+        }
+
+        if ($attempt -lt $Retries) {
+            Write-Host "Command failed. Retrying in 5 seconds ($attempt/$Retries)..."
+            Start-Sleep -Seconds 5
+        }
+    }
+
+    throw "Command failed after $Retries attempt(s): $Command"
+}
+
+function Invoke-NetworkChecked {
+    param(
+        [string]$Description,
+        [string]$Command
+    )
+
+    Invoke-Checked -Description $Description -Command $Command -Retries 3
 }
 
 function Test-NativeSuccess {
@@ -178,10 +200,7 @@ Write-Host "Asset:      $AssetName"
 Write-Host "Zip:        $(if ([string]::IsNullOrWhiteSpace($ZipPath)) { 'auto-generated from repository files' } else { $zipFullPath })"
 Write-Host "Notes:      $notesFullPath"
 
-git fetch origin main --tags
-if ($LASTEXITCODE -ne 0) {
-    throw "git fetch failed."
-}
+Invoke-NetworkChecked "Fetch latest remote state" "git fetch origin main --tags"
 
 $releaseExists = Test-NativeSuccess { gh release view $tagName --repo $Repo }
 
@@ -222,9 +241,9 @@ if ($DryRun -or $hasStagedChanges) {
 }
 
 Invoke-Checked "Create local tag" "git tag $tagName"
-Invoke-Checked "Push main" "git push origin main"
-Invoke-Checked "Push tag" "git push origin $tagName"
-Invoke-Checked "Create GitHub release" "gh release create $tagName '$assetCopy' --repo $Repo --title '$displayVersion' --notes-file '$notesOutput'"
+Invoke-NetworkChecked "Push main" "git push origin main"
+Invoke-NetworkChecked "Push tag" "git push origin $tagName"
+Invoke-NetworkChecked "Create GitHub release" "gh release create $tagName '$assetCopy' --repo $Repo --title '$displayVersion' --notes-file '$notesOutput'"
 
 Write-Host ""
 Write-Host "Done: https://github.com/$Repo/releases/tag/$tagName"
