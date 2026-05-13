@@ -556,6 +556,98 @@ span[md-inline="underline"] u {
 
 .ty-table-edit .btn-group-xs>.btn {
     border: none;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--font-color) !important;
+    opacity: 0.5;
+    transition: color 0.16s ease, opacity 0.16s ease;
+}
+
+.ty-table-edit .btn-group-xs>.btn:hover,
+.ty-table-edit .btn-group-xs>.btn:focus,
+.ty-table-edit .btn-group-xs>.btn:active {
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--LOGO-color) !important;
+    opacity: 1;
+}
+
+.ty-table-edit .btn-group-xs>.btn .ty-icon,
+.ty-table-edit .btn-group-xs>.btn i,
+.ty-table-edit .btn-group-xs>.btn svg {
+    color: inherit !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+
+.md-table-resize-popover .md-grid-board-wrap {
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    text-align: center !important;
+}
+
+.md-table-resize-popover.popover {
+    box-shadow:
+        0 0 0 0.5px rgba(255 255 255 / .1),
+        0 8px 32px rgba(0 0 0 / .5),
+        0 2px 8px rgba(0 0 0 / .4) !important;
+    transform-origin: 20px top;
+    animation: claude-context-menu-in 120ms cubic-bezier(.16, 1, .3, 1) both;
+    will-change: opacity, transform;
+}
+
+.md-table-resize-popover .md-grid-board {
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    border: none !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    table-layout: fixed !important;
+    line-height: normal !important;
+}
+
+.md-table-resize-popover .md-grid-board th,
+.md-table-resize-popover .md-grid-board td {
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    border: none !important;
+    line-height: normal !important;
+}
+
+.md-table-resize-popover .md-grid-board tr[row='1'] {
+    background: transparent !important;
+}
+
+.md-table-resize-popover .md-grid-board .md-grid-ext {
+    background: rgba(217, 119, 87, 0.24) !important;
+}
+
+.md-table-resize-popover .md-grid-board tr[row='1'] .md-grid-ext {
+    background: rgba(217, 119, 87, 0.36) !important;
+}
+
+.md-table-resize-popover .md-grid-board a {
+    border-color: rgba(222, 220, 209, 0.22) !important;
+}
+
+.md-table-resize-popover .md-grid-board a.md-active,
+.md-table-resize-popover .md-grid-board a:hover {
+    border-color: var(--LOGO-color) !important;
+    background: rgba(217, 119, 87, 0.24) !important;
+}
+
+.md-table-resize-popover .popover-title {
+    margin-top: 6px !important;
+    text-align: center !important;
+}
+
+.md-table-resize-popover .md-grid-board-wrap .popover-title {
+    border-top: var(--border-color-30)!important;
 }
 
 /* Remove top margin from headings directly after a table */
@@ -2299,6 +2391,15 @@ li > .outline-item:hover::before,
     transform: scale(0.97) !important;
 }
 
+/* Keep the integrated titlebar window controls visually flat on hover. */
+.unibody-window #w-traffic-lights .toolbar-icon.btn.hover,
+.unibody-window #w-traffic-lights .toolbar-icon.btn:hover,
+.unibody-window #top-titlebar #w-close:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--LOGO-color) !important;
+}
+
 /* =========================================
    13. Integrated Menu Adaptation (mdmdt Scope)
    ========================================= */
@@ -2345,29 +2446,23 @@ li > .outline-item:hover::before,
     letter-spacing: 0;
 }
 
-.unibody-window #megamenu-menu-header-title:hover {
-    color: var(--LOGO-color) !important;
-}
-
 .unibody-window #megamenu-back-btn {
-    margin-left: 10px;
-    border: 1px solid var(--claude-mega-border) !important;
-    border-radius: 8px !important;
-    background: var(--claude-mega-panel) !important;
-    color: var(--font-color) !important;
+    display: none!important;
+    /* margin-left: 10px;
+    border: none!important;
+    color: var(--font-color) !important; */
 }
 
-.unibody-window #megamenu-back-btn:hover {
-    border-color: var(--LOGO-color) !important;
-    background: var(--claude-mega-accent-soft) !important;
-}
+/* .unibody-window #megamenu-back-btn:hover {
+    border-color: none !important;
+} */
 
-.unibody-window #megamenu-back-btn > i {
+/* .unibody-window #megamenu-back-btn > i {
     display: block;
     color: inherit !important;
     font-size: 16px;
     line-height: 28px;
-}
+} */
 
 .unibody-window #megamenu-menu-list {
     padding: 0 8px !important;
@@ -2400,13 +2495,13 @@ li > .outline-item:hover::before,
 }
 
 .unibody-window #megamenu-menu-list > li > a .fa {
-    width: 24px;
+    width: 19px;
     margin: 0 12px 0 0;
     opacity: 1;
     color: var(--claude-mega-muted);
     font-size: 16px;
     line-height: 1;
-    text-align: center;
+    text-align: left;
 }
 
 .unibody-window #megamenu-menu-list > li > a:hover,
@@ -2431,6 +2526,21 @@ li > .outline-item:hover::before,
         radial-gradient(circle at 28% 0%, rgba(255, 255, 255, 0.07), transparent 24%),
         linear-gradient(180deg, var(--claude-mega-bg-soft), var(--bg-color) 58%) !important;
     color: var(--font-color) !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.unibody-window #megamenu-content {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.unibody-window #megamenu-content::-webkit-scrollbar,
+.unibody-window .megamenu-content::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
 }
 
 .unibody-window .megamenu-section {
@@ -2657,6 +2767,10 @@ li > .outline-item:hover::before,
     box-shadow: var(--claude-mega-shadow) !important;
 }
 
+.unibody-window .uni-preference-panel {
+    top: 0!important;
+}
+
 @media (max-width: 1440px) {
     .unibody-window #theme-preview-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2759,6 +2873,7 @@ li > .outline-item:hover::before,
     color: var(--font-color) !important;
     transform: translateY(-1px);
     box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 0.58) !important;
+    border-color: transparent!important;
 }
 
 .unibody-window #megamenu-section-open .long-btn:hover span,
