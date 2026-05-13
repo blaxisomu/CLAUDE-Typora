@@ -213,6 +213,11 @@ body {
 }
 
 /*--- Context menu ---*/
+
+.ty-tooltip.shown {
+    display: none!important;
+}
+
 #context-menu,
 .dropdown-menu {
     box-shadow:
@@ -288,6 +293,10 @@ body {
 
 .dropdown-menu .divider {
     border-top: none!important;
+}
+
+.menu-item-container a.menu-style-btn {
+    box-shadow: none!important;
 }
 
 .context-menu.dropdown-menu>li>a {
@@ -456,7 +465,7 @@ span[md-inline="underline"] u {
     width: 13px !important;
     height: 13px !important;
     position: absolute;
-    top: 3px;
+    top: 2.1px;
     left: 2px;
     margin-left: -1.3em !important;
     margin-top: calc(1em - 12px) !important;
@@ -1149,7 +1158,12 @@ a:hover {
     border-color: transparent;
     border-radius: 15px;
     box-shadow: var(--box-shadow-userinput) !important;
-    transition: all 200ms !important;
+    transition:
+        left 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease !important;
+    will-change: left, box-shadow;
 }
 
 #typora-sidebar:hover {
@@ -2269,4 +2283,630 @@ li > .outline-item:hover::before,
     padding-bottom: 22px !important;
     box-sizing: border-box;
     overflow: auto !important;
+}
+
+/* =========================================
+   Integrated Mode Fixes
+   ========================================= */
+
+/* Keep the Files / Outline labels visually centered inside the sidebar pill tabs. */
+.unibody-window .info-panel-tab-title {
+    line-height: normal !important;
+    transform: translateY(0) !important;
+}
+
+.unibody-window .info-panel-tab-title:active {
+    transform: scale(0.97) !important;
+}
+
+/* =========================================
+   13. Integrated Menu Adaptation (mdmdt Scope)
+   ========================================= */
+
+.unibody-window {
+    --claude-mega-bg: #1f1e1d;
+    --claude-mega-bg-soft: rgba(38, 38, 36, 0.94);
+    --claude-mega-panel: rgba(48, 48, 46, 0.62);
+    --claude-mega-panel-hover: rgba(58, 58, 55, 0.82);
+    --claude-mega-sidebar: rgba(31, 30, 29, 0.95);
+    --claude-mega-border: rgba(222, 220, 209, 0.14);
+    --claude-mega-border-strong: rgba(222, 220, 209, 0.25);
+    --claude-mega-muted: #9a9c92;
+    --claude-mega-shadow: 0 20px 54px -32px rgba(0, 0, 0, 0.78);
+    --claude-mega-accent-soft: rgba(217, 119, 87, 0.16);
+}
+
+.unibody-window.megamenu-opened {
+    background:
+        radial-gradient(circle at 14% 6%, rgba(255, 255, 255, 0.07), transparent 24%),
+        radial-gradient(circle at 92% 8%, rgba(217, 119, 87, 0.12), transparent 28%),
+        linear-gradient(135deg, var(--claude-mega-bg), var(--bg-color) 64%) !important;
+}
+
+.unibody-window #megamenu-menu-sidebar {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%),
+        var(--claude-mega-sidebar) !important;
+    border-right: 1px solid var(--claude-mega-border) !important;
+    box-shadow: 14px 0 40px -28px rgba(0, 0, 0, 0.82) !important;
+    color: var(--sidebar-font-color) !important;
+    overflow: hidden;
+}
+
+.unibody-window #megamenu-menu-sidebar .megamenu-menu-header {
+    min-height: 50px;
+    border-color: var(--claude-mega-border) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window #megamenu-menu-header-title {
+    color: var(--font-color) !important;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.unibody-window #megamenu-menu-header-title:hover {
+    color: var(--LOGO-color) !important;
+}
+
+.unibody-window #megamenu-back-btn {
+    margin-left: 10px;
+    border: 1px solid var(--claude-mega-border) !important;
+    border-radius: 8px !important;
+    background: var(--claude-mega-panel) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window #megamenu-back-btn:hover {
+    border-color: var(--LOGO-color) !important;
+    background: var(--claude-mega-accent-soft) !important;
+}
+
+.unibody-window #megamenu-back-btn > i {
+    display: block;
+    color: inherit !important;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.unibody-window #megamenu-menu-list {
+    padding: 0 8px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.unibody-window #megamenu-menu-list > li {
+    margin-top: 6px;
+}
+
+.unibody-window #megamenu-menu-list > li.divider {
+    height: 1px;
+    margin: 10px 8px;
+    border: none !important;
+    background: linear-gradient(90deg, transparent, var(--claude-mega-border), transparent) !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a {
+    min-height: 36px;
+    display: flex !important;
+    align-items: center;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: var(--sidebar-font-color) !important;
+    font-size: 15px !important;
+    line-height: 36px !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a .fa {
+    width: 24px;
+    margin: 0 12px 0 0;
+    opacity: 1;
+    color: var(--claude-mega-muted);
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover,
+.unibody-window #megamenu-menu-list > li > a.active,
+.unibody-window #megamenu-menu-list > li > a.active:hover {
+    border-color: var(--LOGO-color) !important;
+    background:
+        linear-gradient(90deg, var(--claude-mega-accent-soft), transparent 86%),
+        var(--claude-mega-panel) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover .fa,
+.unibody-window #megamenu-menu-list > li > a.active .fa {
+    color: var(--LOGO-color) !important;
+}
+
+.unibody-window .megamenu-content {
+    padding-top: 30px;
+    padding-right: 34px;
+    background:
+        radial-gradient(circle at 28% 0%, rgba(255, 255, 255, 0.07), transparent 24%),
+        linear-gradient(180deg, var(--claude-mega-bg-soft), var(--bg-color) 58%) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window .megamenu-section {
+    margin-top: 12px;
+}
+
+.unibody-window .megamenu-menu-panel {
+    margin-bottom: 22px;
+    padding: 20px 22px;
+    border: 1px solid var(--claude-mega-border);
+    border-radius: 14px;
+    background: var(--claude-mega-panel);
+    box-shadow: var(--claude-mega-shadow);
+}
+
+.unibody-window .megamenu-menu-panel h1 {
+    margin-top: 12px;
+    margin-bottom: 24px;
+    color: var(--font-color);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0;
+}
+
+.unibody-window .megamenu-menu-panel h1::after {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 3px;
+    margin-top: 12px;
+    border-radius: 999px;
+    background: var(--LOGO-color);
+}
+
+.unibody-window .megamenu-menu-panel h2 {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    color: var(--sidebar-font-color);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+}
+
+.unibody-window .megamenu-menu-panel .long-btn,
+.unibody-window .megamenu-menu-panel .btn {
+    border: 1px solid var(--claude-mega-border) !important;
+    border-radius: 10px !important;
+    background: var(--claude-mega-panel-hover) !important;
+    color: var(--font-color) !important;
+    box-shadow: none !important;
+}
+
+.unibody-window .megamenu-menu-panel .long-btn {
+    padding: 12px 14px !important;
+    text-align: center;
+}
+
+.unibody-window .megamenu-menu-panel .long-btn:hover,
+.unibody-window .megamenu-menu-panel .btn:hover {
+    border-color: var(--LOGO-color) !important;
+    background: var(--claude-mega-accent-soft) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window .megamenu-menu-panel .long-btn:hover span,
+.unibody-window .megamenu-menu-panel .long-btn:hover i,
+.unibody-window .megamenu-menu-panel .btn:hover {
+    color: var(--LOGO-color) !important;
+}
+
+.unibody-window #recent-file-panel {
+    padding: 14px;
+    border: 1px solid var(--claude-mega-border);
+    border-radius: 12px;
+    background: rgba(222, 220, 209, 0.045);
+}
+
+.unibody-window #recent-file-panel-search-input {
+    width: calc(100% - 55px);
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--claude-mega-border) !important;
+    border-radius: 8px !important;
+    background: var(--claude-mega-panel-hover) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window #recent-file-panel-search-input:focus {
+    border-color: var(--LOGO-color) !important;
+    box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.22) !important;
+}
+
+.unibody-window #recent-file-panel-action-btn-container {
+    margin-right: 0;
+}
+
+.unibody-window .megamenu-menu-panel #recent-file-panel .dropdown-menu {
+    margin-top: 6px;
+    border: 1px solid var(--claude-mega-border) !important;
+    border-radius: 10px !important;
+    background: var(--bg-color) !important;
+    box-shadow: var(--box-shadow-userinput) !important;
+}
+
+.unibody-window #megamenu-clear-recet-documents {
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: var(--hover-color);
+    color: var(--font-color) !important;
+    font-size: 13px;
+}
+
+.unibody-window #megamenu-clear-recet-documents:hover {
+    color: var(--LOGO-color) !important;
+}
+
+.unibody-window #recent-document-table {
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+
+.unibody-window #recent-document-table th {
+    border: none !important;
+    color: var(--claude-mega-muted);
+    font-size: 12px;
+}
+
+.unibody-window #recent-document-table td {
+    border: none !important;
+    color: var(--sidebar-font-color);
+}
+
+.unibody-window #recent-document-table .recent-file-name {
+    color: var(--font-color);
+    font-weight: 700;
+}
+
+.unibody-window #recent-document-table tr:hover td {
+    background: var(--claude-mega-accent-soft) !important;
+}
+
+.unibody-window #theme-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 100%;
+}
+
+.unibody-window .theme-preview-div {
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 5px;
+    border: 2px solid var(--claude-mega-border);
+    border-radius: 12px;
+    background: var(--claude-mega-panel);
+    color: var(--LOGO-color);
+    transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.unibody-window .theme-preview-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.unibody-window .theme-preview-div:hover {
+    transform: translateY(-2px);
+    border-color: var(--claude-mega-border-strong);
+    box-shadow: var(--claude-mega-shadow);
+}
+
+.unibody-window .theme-preview-div.active {
+    border-color: var(--LOGO-color);
+    box-shadow: 0 0 0 3px var(--claude-mega-accent-soft);
+}
+
+.unibody-window .theme-preview-div .fa {
+    color: var(--LOGO-color) !important;
+}
+
+.unibody-window #open-theme-folder-btn {
+    margin-top: 28px;
+}
+
+.unibody-window #megamenu-section-about h1 {
+    text-align: center;
+}
+
+.unibody-window #about-content .about-content-main {
+    padding: 20px;
+    border: 1px solid var(--claude-mega-border);
+    border-radius: 14px;
+    background: rgba(222, 220, 209, 0.045);
+}
+
+.unibody-window #about-content a,
+.unibody-window #megamenu-content .ty-link,
+.unibody-window #megamenu-content .open-pandoc-guide {
+    color: var(--LOGO-color) !important;
+    text-decoration: none !important;
+}
+
+.unibody-window #about-content a:hover,
+.unibody-window #megamenu-content .ty-link:hover,
+.unibody-window #megamenu-content .open-pandoc-guide:hover {
+    text-decoration: underline !important;
+}
+
+.unibody-window .uni-preference-panel,
+.unibody-window .uni-license-panel {
+    background:
+        radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.07), transparent 25%),
+        linear-gradient(135deg, var(--claude-mega-bg), var(--bg-color) 62%) !important;
+}
+
+.unibody-window .uni-preference-panel webview {
+    width: calc(100% - 24px) !important;
+    height: calc(100% - 24px) !important;
+    margin: 12px !important;
+    background: var(--bg-color) !important;
+    box-shadow: var(--claude-mega-shadow) !important;
+}
+
+@media (max-width: 1440px) {
+    .unibody-window #theme-preview-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1200px) {
+    .unibody-window #theme-preview-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .unibody-window #theme-preview-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .unibody-window #theme-preview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .unibody-window #megamenu-back-btn {
+        margin-left: 0 !important;
+    }
+}
+
+/* --- Integrated menu refinements: font, menu states, open/export interaction, preference shell --- */
+.unibody-window {
+    --claude-mega-font: "Anthropic Sans Web Text", "Noto Sans SC", "Noto Sanc SC", system-ui, "Segoe UI", sans-serif;
+    --claude-mega-slider-bg:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
+        rgba(48, 48, 46, 0.78);
+    --claude-mega-slider-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.20);
+}
+
+.unibody-window #megamenu-menu-sidebar,
+.unibody-window .megamenu-content,
+.unibody-window .uni-preference-panel,
+.unibody-window .uni-license-panel {
+    font-family: var(--claude-mega-font) !important;
+}
+
+.unibody-window.megamenu-opened header,
+.unibody-window.megamenu-opened #top-titlebar {
+    background: transparent !important;
+    color: var(--sidebar-font-color) !important;
+}
+
+.unibody-window.megamenu-opened #top-titlebar *,
+.unibody-window.megamenu-opened header * {
+    color: inherit !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a {
+    background-size: 180% 100% !important;
+    background-position: 0 50% !important;
+    transition:
+        background-position 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover,
+.unibody-window #megamenu-menu-list > li > a.active,
+.unibody-window #megamenu-menu-list > li > a.active:hover {
+    border-color: var(--claude-mega-border) !important;
+    background: var(--claude-mega-slider-bg) !important;
+    background-size: 180% 100% !important;
+    background-position: 100% 50% !important;
+    color: var(--font-color) !important;
+    box-shadow: var(--claude-mega-slider-shadow) !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover {
+    transform: translateX(2px);
+}
+
+.unibody-window #megamenu-section-open .long-btn,
+.unibody-window #megamenu-section-export .long-btn {
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.unibody-window #megamenu-section-open .long-btn:hover,
+.unibody-window #megamenu-section-export .long-btn:hover {
+    border-color: var(--claude-mega-border-strong) !important;
+    background: var(--hover-color) !important;
+    color: var(--font-color) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 0.58) !important;
+}
+
+.unibody-window #megamenu-section-open .long-btn:hover span,
+.unibody-window #megamenu-section-open .long-btn:hover i,
+.unibody-window #megamenu-section-export .long-btn:hover span,
+.unibody-window #megamenu-section-export .long-btn:hover i {
+    color: var(--font-color) !important;
+}
+
+.unibody-window #recent-document-table tbody tr,
+.unibody-window #recent-document-table tbody td,
+.unibody-window #recent-document-table.table-striped > tbody > tr:nth-of-type(odd),
+.unibody-window #recent-document-table.table-striped > tbody > tr:nth-of-type(odd) > td,
+.unibody-window #recent-document-table.table-striped > tbody > tr:nth-of-type(even),
+.unibody-window #recent-document-table.table-striped > tbody > tr:nth-of-type(even) > td {
+    background: transparent !important;
+}
+
+.unibody-window #recent-document-table tbody tr,
+.unibody-window #recent-document-table tbody td {
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.unibody-window #recent-document-table tbody tr:hover {
+    transform: translateX(2px);
+}
+
+.unibody-window #recent-document-table tbody tr:hover td {
+    background: var(--hover-color) !important;
+    color: var(--font-color) !important;
+}
+
+.unibody-window #recent-document-table tbody td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.unibody-window #recent-document-table tbody td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.unibody-window .uni-preference-panel webview {
+    border-radius: 20px !important;
+}
+
+/* --- Integrated menu interaction pass: smooth slider layer and visible recent-file hover --- */
+.unibody-window {
+    --claude-mega-menu-hover-bg:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
+        rgba(48, 48, 46, 0.78);
+    --claude-recent-row-hover-bg: rgba(217, 119, 87, 0.16);
+}
+
+.unibody-window #megamenu-menu-list > li > a {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: transparent !important;
+    transition:
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        color 0.22s ease,
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background: var(--claude-mega-menu-hover-bg);
+    box-shadow: var(--claude-mega-slider-shadow);
+    opacity: 0;
+    transform: scaleX(0.94);
+    transform-origin: left center;
+    transition:
+        opacity 0.24s ease,
+        transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover,
+.unibody-window #megamenu-menu-list > li > a.active,
+.unibody-window #megamenu-menu-list > li > a.active:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a:hover::before,
+.unibody-window #megamenu-menu-list > li > a.active::before,
+.unibody-window #megamenu-menu-list > li > a.active:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.unibody-window #megamenu-menu-list > li > a .fa,
+.unibody-window #megamenu-menu-list > li > a span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.2s ease;
+}
+
+.unibody-window #recent-document-table.table-hover > tbody > tr:hover,
+.unibody-window #recent-document-table.table-hover > tbody > tr:hover > td,
+.unibody-window #recent-document-table tbody > tr.recent-file-item:hover,
+.unibody-window #recent-document-table tbody > tr.recent-file-item:hover > td {
+    background: var(--claude-recent-row-hover-bg) !important;
+    background-color: var(--claude-recent-row-hover-bg) !important;
+}
+
+.unibody-window #recent-document-table tbody > tr.recent-file-item:hover .recent-file-name {
+    color: var(--font-color) !important;
+}
+
+/* --- Integrated menu interaction trim: non-active hover keeps text motion only --- */
+.unibody-window #megamenu-menu-list > li > a span {
+    display: inline-block;
+    transition:
+        color 0.2s ease,
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.unibody-window #megamenu-menu-list > li > a:not(.active):hover {
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none;
+}
+
+.unibody-window #megamenu-menu-list > li > a:not(.active):hover::before {
+    opacity: 0 !important;
+    transform: scaleX(0.94) !important;
+}
+
+.unibody-window #megamenu-menu-list > li > a:not(.active):hover span {
+    transform: translateX(3px);
+    color: var(--font-color) !important;
+}
+
+.unibody-window #recent-document-table.table-hover > tbody > tr:hover,
+.unibody-window #recent-document-table.table-hover > tbody > tr:hover > td,
+.unibody-window #recent-document-table tbody > tr.recent-file-item:hover,
+.unibody-window #recent-document-table tbody > tr.recent-file-item:hover > td,
+.unibody-window #recent-document-table tbody tr:hover td {
+    background: var(--hover-color) !important;
+    background-color: var(--hover-color) !important;
 }
