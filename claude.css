@@ -199,6 +199,10 @@ body {
     color: #d97757 !important;
 }
 
+.pane-group input:not([type="range"]):not([type="color"]) {
+    border-radius: 4px!important;
+}
+
 /* =========================================
    5. 全局排版与色调覆盖
    ========================================= */
@@ -227,6 +231,13 @@ body {
 }
 
 /* ---------- 右键菜单 ---------- */
+
+#context-menu li[data-group="search"][data-key="search-default"] *,
+#context-menu li[data-group="search"][data-key="search-default"],
+#context-menu li[data-group="search"][data-key="search-default"] > a {
+    background: transparent !important;
+    box-shadow: none !important;
+}
 
 /* 隐藏提示 */
 .ty-tooltip.shown {
@@ -345,6 +356,16 @@ body {
     border-top-width: 0 !important;
 }
 
+li.folder-menu-item.file-action-item:hover,
+li.folder-menu-item.file-action-item:hover > a,
+li.folder-menu-item.file-action-item:hover > a *,
+li.folder-menu-item.file-action-item.selected-folder-menu-item:hover,
+li.folder-menu-item.file-action-item.selected-folder-menu-item:hover > a {
+    background: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
 /* =========================================
    6. Markdown 样式
    ========================================= */
@@ -405,8 +426,8 @@ body {
 
 /* 修改普通文本的选中高亮颜色 */
 ::selection {
-    background-color: var(--LOGO-color) !important;
-    color: var(--font-color) !important;
+    background: rgba(142, 164, 255, 0.30);
+    color: #131314;
 }
 
 /* ---------- Typora 隐藏加粗/斜体星号标记 ---------- */
@@ -481,8 +502,14 @@ span[md-inline="underline"] u {
 }
 
 .write > ul ul,
-markdown > ol ol {
+.write > ol ol {
     padding: 0 2rem 0.25rem 2rem;
+    margin: 0.25rem 0 0 0;
+}
+
+.write > ul ol,
+.write > ol ul {
+    padding: 0 2rem 0 2rem;
     margin: 0.25rem 0 0 0;
 }
 
@@ -1313,6 +1340,33 @@ a:hover {
 
 /* ---------- 7.3 底栏 ---------- */
 
+.ty-add:before {
+    color: #1f1e1d80;
+}
+.ty-three-cells:before {
+    color: #1f1e1dbf;    
+}
+
+/* .ty-add:before:hover {
+    color: #D97757!important;
+} */
+
+#sidebar-new-file-btn:hover {
+    background: transparent!important;
+}
+
+#sidebar-footer-main-item-label {
+    color: var(--border-color-30) !important;
+}
+
+.ty-icon.ty-dots-v {
+    color: var(--border-color-15) !important;    
+}
+
+#switch-file-list-btn:hover {
+    background: transparent!important;
+}
+
 /* 去除侧边栏底栏的边框 */
 #ty-sidebar-footer {
     border: none;
@@ -1459,11 +1513,11 @@ a:hover {
 }
 
 .ty-show-search .info-panel-tab-wrapper::before {
-    display: none;
+    transform: translateX(86px);
 }
 
 .ty-show-search .info-panel-tab-wrapper::after {
-    display: none;
+    transform: translateX(86px);
 }
 
 .info-panel-tab {
@@ -1676,7 +1730,7 @@ a:hover {
 /* 节点文字的字重 */
 .file-node-content {
     font-weight: var(--sidebar-font-weight);
-    transition: all 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out;
 }
 
 /* 文件树行高 */
@@ -1758,13 +1812,64 @@ a:hover {
 
 /* 搜索框 */
 #file-library-search-input {
-    border-color: var(--border-color-30);
+    border-color: #dedcd180;
     border-radius: 8px;
     height: 28px;
 }
 
+#file-library-search-input:focus {
+    border-color: #dedcd180;
+}
+
 #file-library-search-panel {
     border-bottom: none;
+}
+
+/* 文件树搜索框开合动画 */
+#typora-sidebar.active-tab-files.use-file-tree-style:not(.ty-on-search) #file-library-search {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 0;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    transition: flex-basis 0.25s ease, height 0.25s ease;
+}
+
+#typora-sidebar.active-tab-files.use-file-tree-style.ty-show-search:not(.ty-on-search) #file-library-search {
+    flex-basis: 50px;
+    height: 50px;
+}
+
+#typora-sidebar.active-tab-files.use-file-tree-style:not(.ty-on-search) #file-library-search-panel {
+    position: relative;
+    top: 0 !important;
+    margin-top: 0;
+    flex: 0 0 auto;
+    border-bottom: 0 !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.18s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+#typora-sidebar.active-tab-files.use-file-tree-style.ty-show-search #file-library-search-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+        opacity 0.18s ease 0.04s,
+        transform 0.25s ease,
+        visibility 0s;
+}
+
+#typora-sidebar.active-tab-files.use-file-tree-style:not(.ty-show-search):not(.ty-on-search) #file-library-search-input {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 /* 搜索列表背景 */
@@ -1928,6 +2033,15 @@ a:hover {
    9. 大纲
    ========================================= */
 
+#outline-content:empty::after {
+    content: "暂无大纲"!important;
+    display: block;
+    padding: 16px 12px;
+    color: rgba(48, 48, 46, 0.45);
+    font-size: 13px;
+    text-align: center;
+}
+
 /* 去除 X 按钮 */
 #close-outline-filter-btn {
     display: none !important;
@@ -1943,9 +2057,51 @@ a:hover {
     width: calc(100% - 1px) !important;
 }
 
-/* 将大纲搜索框向下位移 */
-.ty-show-outline-filter #file-library-search-panel {
-    top: 20px;
+/* 固定大纲搜索框在侧边栏顶部，并保留开合动画 */
+#typora-sidebar.active-tab-outline:not(.ty-on-search) #file-library-search {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 0;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    transition: flex-basis 0.25s ease, height 0.25s ease;
+}
+
+#typora-sidebar.ty-show-outline-filter:not(.ty-on-search) #file-library-search {
+    flex-basis: 50px;
+    height: 50px;
+}
+
+#typora-sidebar.active-tab-outline:not(.ty-on-search) #file-library-search-panel {
+    position: relative;
+    top: 0 !important;
+    margin-top: 0;
+    flex: 0 0 auto;
+    border-bottom: 0 !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+        opacity 0.18s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+#typora-sidebar.ty-show-outline-filter:not(.ty-on-search) #file-library-search-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+        opacity 0.18s ease 0.04s,
+        transform 0.25s ease,
+        visibility 0s;
+}
+
+#typora-sidebar.active-tab-outline:not(.ty-show-outline-filter):not(.ty-on-search) #file-library-search-input {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 #outline-content {
@@ -2235,8 +2391,10 @@ li > .outline-item:hover::before,
 }
 
 /* 搜索状态下强制隐藏所有树状连线 */
-.outline-content li:has(.ty-outline-hit) *::before,
-.outline-content li:has(.ty-outline-hit) *::after {
+.outline-content li:has(.ty-outline-hit) .outline-item::before,
+.outline-content li:has(.ty-outline-hit) .outline-item::after,
+.outline-content li:has(.ty-outline-hit) .outline-children::before,
+.outline-content li:has(.ty-outline-hit) .outline-children::after {
     content: '';
     display: none;
 }
@@ -2411,6 +2569,42 @@ li > .outline-item:hover::before,
    ========================================= */
 
 @media print {
+    /* ---------- 行内样式：覆盖 Typora 默认 mark/u 打印样式，保留主题的波浪高亮和下划线 ---------- */
+    mark,
+    #write mark,
+    .write mark,
+    .typora-export mark,
+    span[md-inline="highlight"] mark,
+    .md-pair-s mark {
+        background: transparent !important;
+        background-color: transparent !important;
+        color: inherit !important;
+        text-decoration: underline wavy #D97757 !important;
+        text-decoration-line: underline !important;
+        text-decoration-style: wavy !important;
+        text-decoration-color: #D97757 !important;
+        text-decoration-thickness: 1px !important;
+        text-underline-offset: 3px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    u,
+    #write u,
+    .write u,
+    .typora-export u,
+    span[md-inline="underline"] u {
+        color: inherit !important;
+        text-decoration: underline solid #D97757 !important;
+        text-decoration-line: underline !important;
+        text-decoration-style: solid !important;
+        text-decoration-color: #D97757 !important;
+        text-decoration-thickness: 1px !important;
+        text-underline-offset: 3px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
     /* ---------- 列表：flexbox gap 在打印引擎中不生效，回退为传统 margin 间距 ---------- */
     #write ul,
     #write ol,
@@ -2580,6 +2774,38 @@ li > .outline-item:hover::before,
     background: transparent !important;
     background-color: transparent !important;
     color: var(--LOGO-color) !important;
+}
+
+/* 一体化顶栏与书写区交接处：只在标题栏自身宽度内加柔和渐隐，不覆盖侧边栏顶部 */
+.unibody-window:not(.megamenu-opened) #top-titlebar {
+    overflow: visible !important;
+    z-index: 900 !important;
+    isolation: isolate;
+}
+
+.unibody-window:not(.megamenu-opened) #top-titlebar > * {
+    position: relative;
+    z-index: 2;
+}
+
+.unibody-window:not(.megamenu-opened) #top-titlebar::after {
+    content: "";
+    position: absolute;
+    left: 25px;
+    right: 0;
+    top: 0;
+    bottom: -20px;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(250, 249, 245, 1) 0%,
+            rgba(250, 249, 245, 1) 65%,
+            rgba(250, 249, 245, 0) 100%
+        );
+    filter: blur(4px);
+    transform: translateZ(0);
+    z-index: 1;
 }
 
 /* =========================================
@@ -3179,6 +3405,16 @@ li > .outline-item:hover::before,
 
 .unibody-window #recent-document-table tbody tr:hover td {
     background: var(--hover-color) !important;
+}
+
+/* --- 一体化 / 全屏标题栏：避免正文从顶部透明区域透出 --- */
+#top-titlebar,
+#w-top-margin,
+.typora-fullscreen header,
+.typora-fullscreen #top-titlebar,
+.typora-fullscreen #w-top-margin {
+    background: #FAF9F5 !important;
+    background-color: #FAF9F5 !important;
 }
 
 
